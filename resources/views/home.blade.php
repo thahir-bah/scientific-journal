@@ -1,0 +1,208 @@
+@extends('master')
+@section('title'){{ config('app.name') }} @stop
+@section('description', 'This is description tag')
+@section('content')
+    @if (Session::has('payment_message'))
+        @php $response = Session::get('payment_message') @endphp
+        <div class="toast-holder">
+            <div id="toast-container">
+                <div class="alert toast-{{{$response['code']}}} alart-message alert-dismissible fade show fixed_message">
+                    <div class="toas`t-message">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        {{{ $response['message'] }}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+    @php
+    if (Schema::hasTable('users')){
+        $slide_unserialize_array = App\SiteManagement::getMetaValue('slides');
+        $welcome_slide_unSerialize_array = App\SiteManagement::getMetaValue('welcome_slides');
+        $published_articles = App\Article::getPublishedArticle();
+        $page_slug  = App\SiteManagement::getMetaValue('pages');
+        $page_data = App\Page::getPageData($page_slug[0]);
+        if(!empty($page_data)){
+        $welcome_desc = preg_replace("/<img[^>]+\>/i", " ", $page_data->body);
+        }else{
+            $welcome_desc = "";
+        }
+    }
+    @endphp
+     @if (!empty($slide_unserialize_array))
+    <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-9 float-left mt-0 pt-0">
+        
+                <div class="row">
+                <div style="margin: 0;
+                        padding-top: 0;
+                        font-weight: normal;
+                        border: none;
+                        font-family: Georgia, 'Times New Roman', Times, serif;
+                        font-size: 1.6em;
+                        text-shadow: 1px 1px 3px #000; ">A Propos</div> 
+                <div class="h4 pb-2 mb-4 text-dark border-bottom border-dark" style="position: flex; width: 100%;"></div>
+                <div class="sj-widgetcontent">
+                    <h3>International Journal of Computer Engineering(IJCE)</h3>
+                <p>International Journal of Computer Engineering(IJCE), ISSN 2088-8708, e-ISSN 2722-2578 is an official publication of the Institute of Advanced Engineering and Science (IAES). The IJECE is an international open access refereed journal that has been published online since 2011. The IJECE is open to submission from scholars and experts in the wide areas of electrical, electronics, instrumentation, control, telecommunication and computer engineering from the global world, and publishes reviews, original research articles, and short communications. This journal is indexed and abstracted by SCOPUS (Elsevier), SCImago Journal Rank (SJR), and in Top Databases and Universities. Now, this journal has SNIP: 0.688; SJR: 0.376; CiteScore: 3.2; Q2 on Computer Science and Q3 on Electrical & Electronics Engineering). Our aim is to provide an international forum for scientists and engineers to share research and ideas, and to promote the crucial field of electrical & power engineering, circuits & electronics, power electronics & drives, automation, instrumentation & control engineering, digital Signal, image & video processing, telecommunication system & technology, computer science & information technology, internet of things, big data & cloud computing, and artificial intelligence & soft computing.
+                IJECE uses a rolling submission process, allowing authors to submit at any time during the year without time restraints.</p>
+                </div>
+                
+                    
+            </div>
+            <div class="row">
+                <div style="margin: 0;
+                        padding-top: 0;
+                        font-weight: normal;
+                        border: none;
+                        font-family: Georgia, 'Times New Roman', Times, serif;
+                        font-size: 1.6em;
+                        text-shadow: 1px 1px 3px #000; ">Announcements</div> 
+                <div class="h4 pb-2 mb-4 text-dark border-bottom border-dark" style="position: flex; width: 100%;"></div>
+                <div class="sj-widgetcontent">
+                <h3>IJCE does not accept any papers suggestion from conference organizers</h3>
+ 
+                 <p>   Dear Sir/Madam,</p>
+
+                <p>    Due to huge regular papers submission, we apologize that our journal does not accept any papers suggestion from other conference organizers. We sincerely apologize for any inconvenience. Critical suggestions are welcome for improvement of the contents and journal policies.</p>
+
+                  <p>  Your attention and cooperation is very highly appreciated.</p>
+
+                  <p>  Best Regards,</p>
+                   <p> IJECE Editorial Office
+                </p>
+                </div>
+                <div class="h4 pb-2 mb-4 text-dark border-bottom border-dark" style="position: flex; width: 100%;"></div>
+                    
+            </div>
+        <!--<div id="sj-homebanner" class="sj-homebanner owl-carousel">
+            @foreach($slide_unserialize_array as $key => $slide)
+            <div class="item">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="sj-postbook">
+                                <figure class="sj-featureimg">
+                                    <div class="sj-bookimg">
+                                        <div class="sj-frontcover">
+                                            <img src="{{{asset('uploads/slider/images/'.$slide['slide_image'])}}}" alt="{{{trans('prs.slide_img')}}}">
+                                        </div>
+                                    </div>
+                                </figure>
+                            </div>
+                        </div>
+                        @if (!empty($slide['slide_title']) || !empty($slide['slide_desc']) )
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="sj-bannercontent">
+                                <h1>@php echo htmlspecialchars_decode(stripslashes($slide['slide_title'])); @endphp</h1>
+                                <div class="sj-description">
+                                    <p>@php echo htmlspecialchars_decode(stripslashes($slide['slide_desc'])); @endphp</p>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div> -->
+    @endif
+    <!--
+    @if (!empty($page_data))
+    <div class="sj-haslayout sj-welcomegreetingsection sj-sectionspace">
+        <div class="container">
+            <div class="row">
+                
+                <div class="sj-welcomegreeting">
+                    @if (!empty($welcome_slide_unSerialize_array))
+                        <div class="col-12 col-sm-12 col-md-5 col-lg-5 sj-verticalmiddle">
+                            <div id="sj-welcomeimgslider" class="sj-welcomeimgslider sj-welcomeslider owl-carousel">
+                                @foreach ($welcome_slide_unSerialize_array as $key => $slide)
+                                    <figure class="sj-welcomeimg item">
+                                        <img src="{{{asset('uploads/settings/welcome_slider/'.$slide['welcome_slide_image'])}}}" alt="{{{trans('prs.img_desc')}}}">
+                                    </figure>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+                    <div class="col-12 col-sm-12 col-md-7 col-lg-7 sj-verticalmiddle float-right">
+                        <div class="sj-welcomecontent">
+                            <div class="sj-welcomehead">
+                                <span>{{{$page_data->sub_title}}}</span>
+                                <h2>{{{$page_data->title}}}</h2>
+                            </div>
+                            <div class="sj-description">
+                                @php echo str_limit(htmlspecialchars_decode(stripslashes($welcome_desc)), 300) @endphp
+                            </div>
+                            <div class="sj-btnarea">
+                                <a class="sj-btn" href="{{{url('/page/'.$page_data->slug.'/')}}}">{{{trans('prs.btn_read_more')}}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+    @endif
+    -->
+    <div id="sj-twocolumns" class="sj-twocolumns">
+        <div class="container">
+            <div class="row">
+                @if (!empty($published_articles))
+                    <div class="col-12 col-sm-12 col-md-8 col-lg-9">
+                        <div id="sj-content" class="sj-content">
+                            <section class="sj-haslayout sj-sectioninnerspace">
+
+                                    <div style="margin: 0;
+                        padding-top: 0;
+                        font-weight: normal;
+                        border: none;
+                        font-family: Georgia, 'Times New Roman', Times, serif;
+                        font-size: 1.6em;
+                        text-shadow: 1px 1px 3px #000; ">Articles</div> 
+                    
+                                   
+                                
+                            
+                                <div id="sj-editorchoiceslider" class="sj-editorchoiceslider sj-editorschoice">
+                                    @if (!empty($published_articles))
+                                        @foreach ($published_articles as $article)
+                                            @php $edition_image = App\Helper::getEditionImage($article->edition_id,'medium') ;@endphp
+                                            <article class="sj-post sj-editorchoice">
+                                                @if (!empty($edition_image))
+                                                    <figure class="sj-postimg">
+                                                        <img src="{{{asset($edition_image)}}}" alt="{{{trans('prs.article_img')}}}">
+                                                    </figure>
+                                                @endif
+                                                <div class="sj-postcontent">
+                                                    <div class="sj-head">
+                                                        <span class="sj-username">{{{App\User::getUserNameByID($article->corresponding_author_id)}}}</span>
+                                                        <h3><a href="{{{url('article/'.$article->slug)}}}">{{{$article->title}}}</a></h3>
+                                                    </div>
+                                                    <div class="sj-description">
+                                                        @php echo str_limit($article->excerpt, 105); @endphp
+                                                    </div>
+                                                    <a class="sj-btn" href="{{{url('article/'.$article->slug)}}}">{{{trans('prs.btn_view_full_articles')}}}</a>
+                                                </div>
+                                            </article>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-3">
+                        @include('includes.widgetsidebar')
+                    </div>
+                -->
+                @endif
+            </div>
+        </div>
+    </div>
+    </div>
+@if(Schema::hasTable('users'))
+                @include('includes.rightside-menu') 
+@endif
+@endsection
